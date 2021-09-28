@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class CharactersController {
 
     @GetMapping("/characters")
-    public String get(){
-        return "Get All Characters!";
+    public String getAll(){
+        return "Get All Characters";
     }
 
     @GetMapping("/characters/{character_id}")
