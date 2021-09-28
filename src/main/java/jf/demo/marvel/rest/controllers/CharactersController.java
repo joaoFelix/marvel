@@ -1,6 +1,6 @@
 package jf.demo.marvel.rest.controllers;
 
-import jf.demo.marvel.rest.auth.Authentication;
+import jf.demo.marvel.rest.auth.AuthenticationService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CharactersController {
 
-    private Authentication authentication;
+    private final AuthenticationService authenticationService;
 
-    public CharactersController(Authentication authentication) {
-        this.authentication = authentication;
+    public CharactersController(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
     }
 
     @GetMapping("/characters")
