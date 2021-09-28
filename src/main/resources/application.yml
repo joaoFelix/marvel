@@ -1,0 +1,3 @@
+marvel:
+  privateKey: ${env.privateKey}
+  publicKey: ${env.publicKey}
