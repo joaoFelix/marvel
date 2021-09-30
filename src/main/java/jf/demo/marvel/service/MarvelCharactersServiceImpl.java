@@ -12,7 +12,6 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,10 +86,11 @@ public class MarvelCharactersServiceImpl implements MarvelCharactersService {
                     offset += limit;
                 }
 
-                outputStream.write("]".getBytes(StandardCharsets.UTF_8));
+                outputStream.write("]".getBytes());
 
             } catch (RestClientException e) {
                 log.error("Error getting Marvel Characters", e);
+                throw new IllegalStateException("Error getting Marvel Characters", e);
             }
         };
     }
