@@ -56,7 +56,12 @@ class CharactersControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
-        assertEquals("Uma descrição", response.getBody().getDescription());
+        assertEquals("Rick Jones tem sido o melhor amigo de Hulk desde o primeiro dia," +
+                         " mas agora ele é mais do que um amigo ... ele é um companheiro de equipe!" +
+                         " Transformada por uma explosão de energia gama, a pele espessa e blindada da Bomba A" +
+                         " é tão forte e poderosa quanto azul." +
+                         " E quando ele entra em ação, ele a usa como uma bola de boliche gigante de destruição!",
+                     response.getBody().getDescription());
     }
 
     @Test
