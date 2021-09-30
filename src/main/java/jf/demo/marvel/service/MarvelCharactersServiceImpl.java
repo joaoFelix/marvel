@@ -1,7 +1,7 @@
 package jf.demo.marvel.service;
 
 import jf.demo.marvel.domain.MarvelCharacter;
-import jf.demo.marvel.domain.MarvelResponse;
+import jf.demo.marvel.service.internal.MarvelResponse;
 import jf.demo.marvel.rest.auth.AuthenticationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

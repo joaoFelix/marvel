@@ -1,5 +1,6 @@
-package jf.demo.marvel.domain;
+package jf.demo.marvel.service.internal;
 
+import jf.demo.marvel.domain.MarvelCharacter;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
