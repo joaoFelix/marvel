@@ -1,5 +1,8 @@
 package jf.demo.marvel.rest.controllers;
 
+import jf.demo.marvel.domain.MarvelCharacter;
+import jf.demo.marvel.service.MarvelCharactersService;
+import jf.demo.marvel.service.TranslationService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -7,11 +10,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class CharactersControllerTest {
+
+    private static final int CHARACTER_ID = 1017100;
 
     @Autowired
     CharactersController charactersController;
@@ -30,13 +39,63 @@ class CharactersControllerTest {
 
     @Test
     public void canGetCharacter(){
-        int idFor3DMan = 1011334;
-
-        assertEquals(idFor3DMan,  charactersController.getCharacter(idFor3DMan).getBody().getId());
+        assertEquals(CHARACTER_ID,
+                     charactersController.getCharacter(CHARACTER_ID, Optional.empty()).getBody().getId());
     }
 
     @Test
     public void returnsNotFoundWhenCharacterDoesNotExist(){
-        assertEquals(HttpStatus.NOT_FOUND,  charactersController.getCharacter(1).getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND,
+                     charactersController.getCharacter(1, Optional.empty()).getStatusCode());
+    }
+
+    @Test
+    public void canGetCharacterWithTranslatedDescription(){
+        ResponseEntity<MarvelCharacter> response = charactersController.getCharacter(CHARACTER_ID,
+                                                                                     Optional.of("pt"));
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        assertEquals("Uma descrição", response.getBody().getDescription());
+    }
+
+    @Test
+    public void doesNotTryToTranslateOnInvalidLanguage(){
+        MarvelCharactersService charactersService = mock(MarvelCharactersService.class);
+        TranslationService translationService = mock(TranslationService.class);
+
+        CharactersController charactersController = new CharactersController(charactersService, translationService);
+
+        MarvelCharacter character = new MarvelCharacter();
+        character.setDescription("A description");
+
+        when(charactersService.getCharacter(eq(CHARACTER_ID))).thenReturn(Optional.of(character));
+
+        ResponseEntity<MarvelCharacter> response = charactersController.getCharacter(CHARACTER_ID,
+                                                                                     Optional.of("portugues"));
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        verifyNoInteractions(translationService);
+    }
+
+    @Test
+    public void doesNotTryToTranslateOnEmptyDescription(){
+        MarvelCharactersService charactersService = mock(MarvelCharactersService.class);
+        TranslationService translationService = mock(TranslationService.class);
+
+        CharactersController charactersController = new CharactersController(charactersService, translationService);
+
+        MarvelCharacter character = new MarvelCharacter();
+        character.setDescription("");
+
+        when(charactersService.getCharacter(eq(CHARACTER_ID))).thenReturn(Optional.of(character));
+
+        ResponseEntity<MarvelCharacter> response = charactersController.getCharacter(CHARACTER_ID,
+                                                                                     Optional.of("pt"));
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        verifyNoInteractions(translationService);
     }
 }

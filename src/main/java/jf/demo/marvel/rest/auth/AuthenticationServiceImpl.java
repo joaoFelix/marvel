@@ -1,16 +1,14 @@
 package jf.demo.marvel.rest.auth;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 @Service
+@AllArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService{
 
     private final Authentication authentication;
-
-    public AuthenticationServiceImpl(Authentication authentication) {
-        this.authentication = authentication;
-    }
 
     @Override
     public String getPublicKey() {
@@ -22,5 +20,10 @@ public class AuthenticationServiceImpl implements AuthenticationService{
         String hashBase = timestamp + authentication.getPrivateKey() + authentication.getPublicKey();
 
         return DigestUtils.md5DigestAsHex(hashBase.getBytes());
+    }
+
+    @Override
+    public String getTranslationServiceKey() {
+        return authentication.getTranslationServiceKey();
     }
 }

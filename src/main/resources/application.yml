@@ -1,3 +1,6 @@
 marvel:
-  privateKey: ${env.privateKey}
-  publicKey: ${env.publicKey}
+  privateKey: ${env.marvel.privateKey}
+  publicKey: ${env.marvel.publicKey}
+
+translation:
+  key: ${env.translation.key}

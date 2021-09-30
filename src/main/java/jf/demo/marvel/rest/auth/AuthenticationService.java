@@ -5,4 +5,6 @@ public interface AuthenticationService {
     String getPublicKey();
 
     String getMd5HashWithTimestamp(long timestamp);
+
+    String getTranslationServiceKey();
 }

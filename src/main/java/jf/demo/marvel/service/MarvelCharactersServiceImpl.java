@@ -1,10 +1,9 @@
 package jf.demo.marvel.service;
 
 import jf.demo.marvel.domain.MarvelCharacter;
-import jf.demo.marvel.service.internal.MarvelResponse;
 import jf.demo.marvel.rest.auth.AuthenticationService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import jf.demo.marvel.service.internal.MarvelResponse;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +17,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Log4j2
 public class MarvelCharactersServiceImpl implements MarvelCharactersService {
-
-    private static final Logger log = LoggerFactory.getLogger(MarvelCharactersServiceImpl.class);
 
     private final String MARVEL_GATEWAY_URL = "http://gateway.marvel.com/v1/public/characters";
 
